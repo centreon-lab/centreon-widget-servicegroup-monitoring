@@ -31,27 +31,24 @@
  * For more information : contact@centreon.com
  *
  */
- 
+
 jQuery(function () {
     loadPage();
 });
 
-/**                                                                                                                                                                                                          
- * Load page                                                                                                                                                                                                 
+/*
+ * Load page 
  */
 function loadPage()
 {
     jQuery.ajax("./src/index.php?widgetId=" + widgetId + "&page=" + pageNumber, {
         success: function (htmlData) {
-            jQuery("#sgMonitoringTable").html("");
+            //jQuery("#sgMonitoringTable").html("");
             jQuery("#sgMonitoringTable").html(htmlData);
-            var h = document.getElementById("sgMonitoringTable").scrollHeight + 10;
-            ResizeFrame(window.name, h);
-            jQuery("#sgMonitoringTable").find("img, style, script, link").load(function () {
-                var h = document.getElementById("sgMonitoringTable").scrollHeight + 10;
+            var monitoringTable = jQuery("#sgMonitoringTable").find("img, style, script, link").load(function() {
+                var h = document.getElementById("sgMonitoringTable").scrollHeight*2;
                 ResizeFrame(window.name, h);
             });
-
         }
     });
     if (autoRefresh) {
@@ -62,11 +59,28 @@ function loadPage()
     }
 }
 
+jQuery(function() {
+    loadPage();
+    $('.checkall').live('click', function () {
+            var chck = this.checked;
+            $(this).parents().find(':checkbox').each(function() {
+                    $(this).attr('checked', chck);
+                    clickedCb[$(this).attr('id')] = chck;
+                });
+        });
+    $(".selection").live('click', function() {
+            clickedCb[$(this).attr('id')] = this.checked;
+        });
+});
+
 
 function ResizeFrame(ifrm, height)
 {
+    /*
     if (height < 150) {
         height = 150;
     }
+    */
+    console.log("SIZE:"+height);
     jQuery("[name=" + ifrm + "]").height(height);
 }
