@@ -36,7 +36,6 @@
 ini_set("log_errors",1);
 ini_set("error_log", "/tmp/php-error.log");
 
-
 require_once "../../require.php";
 require_once $centreon_path . 'www/class/centreon.class.php';
 require_once $centreon_path . 'www/class/centreonSession.class.php';
@@ -116,7 +115,6 @@ if (!$centreon->user->admin) {
     $query = CentreonUtils::conditionBuilder($query, "name IN (" . $aclObj->getServiceGroupsString("NAME") . ")");
 }
 
-
 $orderby = "name ASC";
 if (isset($preferences['order_by']) && $preferences['order_by'] != "") {
     $orderby = $preferences['order_by'];
@@ -165,6 +163,4 @@ if ($preferences['more_views']) {
     $bMoreViews = $preferences['more_views'];
 }
 $template->assign('more_views', $bMoreViews);
-
 $template->display('table.ihtml');
-?>

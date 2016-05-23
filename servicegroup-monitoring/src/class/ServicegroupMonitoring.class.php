@@ -191,4 +191,3 @@ class ServicegroupMonitoring
         return $tab;
     }
 }
-?>
