@@ -103,25 +103,22 @@ $serviceStateLabels = array(0 => "Ok",
 
 $query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT name, servicegroup_id ";
 $query .= "FROM servicegroups ";
-if (isset($preferences['sg_name_search']) && $preferences['sg_name_search'] != "") {
-    $tab = split(" ", $preferences['sg_name_search']);
-    $op = $tab[0];
-    if (isset($tab[1])) {
-        $search = $tab[1];
-    }
-    if ($op && isset($search) && $search != "") {
-        $query = CentreonUtils::conditionBuilder($query, "name " . CentreonUtils::operandToMysqlFormat($op) . " '" . $dbb->escape($search) . "' ");
-    }
+
+if (isset($preferences['service_group_filter']) && $preferences['service_group_filter'] != "") {
+
+    $query = CentreonUtils::conditionBuilder($query, " servicegroup_id IN (" . $dbb->escape($preferences['service_group_filter']) . ") ");
+
 }
+
 if (!$centreon->user->admin) {
     $query = CentreonUtils::conditionBuilder($query, "name IN (" . $aclObj->getServiceGroupsString("NAME") . ")");
 }
-
 
 $orderby = "name ASC";
 if (isset($preferences['order_by']) && $preferences['order_by'] != "") {
     $orderby = $preferences['order_by'];
 }
+
 $query .= "ORDER BY $orderby";
 $query .= " LIMIT " . ($page * $preferences['entries']) . "," . $preferences['entries'];
 $res = $dbb->query($query);
@@ -130,9 +127,11 @@ error_log($query);
 $nbRows = $dbb->numberRows();
 $data = array();
 $detailMode = false;
+
 if (isset($preferences['enable_detailed_mode']) && $preferences['enable_detailed_mode']) {
     $detailMode = true;
 }
+
 while ($row = $res->fetchRow()) {
     $data[$row['name']] = array('name'          => $row['name'],
                                 'svc_id'        => $row['servicegroup_id'],

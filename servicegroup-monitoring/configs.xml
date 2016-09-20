@@ -4,14 +4,14 @@
         <email>contact@centreon.com</email>
         <website>http://www.centreon.com</website>
         <description>Widget for displaying servicegroup monitoring information</description>
-        <version>1.4.0</version>
+        <version>1.4.1</version>
         <keywords>centreon, widget, servicegroup, service, monitoring</keywords>
         <screenshot></screenshot>
         <thumbnail>./widgets/servicegroup-monitoring/resources/centreon-logo.png</thumbnail>
         <url>./widgets/servicegroup-monitoring/index.php</url>
         <autoRefresh>10</autoRefresh>
         <preferences>
-            <preference label="Servicegroup Name Search" name="sg_name_search" defaultValue="" type="compare" header="Filters"/>
+            <preference label="Service Group Filter" name="service_group_filter" defaultValue="" type="serviceGroupMulti"/>
             <preference label="Enable Detailed Mode" name="enable_detailed_mode" defaultValue="0" type="boolean"/>
             <preference label="Results" name="entries" defaultValue="10" type="range" min="10" max="100" step="10"/>			
             <preference label="Order By" name="order_by" defaultValue="" type="sort">
